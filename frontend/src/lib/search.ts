@@ -10,12 +10,14 @@ export type CourseData = {
   subjectDescription: string;
   catalogNumber: string;
   level: string;
-  academicGroup: string;
+  // academicGroup: string;
   semester: string;
   academicYear: number;
   classSection: string;
   component: string;
   description: string;
+  campus: string;
+  crn: string;
   instructors: {
     name: string;
     email: string;

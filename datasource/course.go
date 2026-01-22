@@ -27,7 +27,7 @@ type Course struct {
 	Level string `json:"level"`
 
 	// AcademicGroup describes the school offering the course (FAS, GSAS).
-	AcademicGroup string `json:"academicGroup"`
+	// AcademicGroup string `json:"academicGroup"`
 
 	// Semester is the semester offered ("Spring 2021", "Summer 2019").
 	Semester string `json:"semester"`
@@ -55,6 +55,12 @@ type Course struct {
 
 	// DivisionalDist contains the divisional distribution requirement(s), if any.
 	DivisionalDist []string `json:"divisionalDist"`
+
+	// GT specifics
+	CRN        string  `json:"crn"`
+	Credits    float32 `json:"credits"`
+	Campus     string  `json:"campus"`
+	PrereqText string  `json:"prereqText"`
 }
 
 // Instructor describes a faculty course instructor.

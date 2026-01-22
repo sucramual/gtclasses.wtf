@@ -99,7 +99,7 @@
       <a
         href="/"
         on:click|preventDefault={() => ((query = ""), (landing = true))}
-        >classes.<span class="text-violet-500">wtf</span></a
+        >classes.<span class="text-yellow-500">wtf</span></a
       >
     </h1>
 
@@ -114,16 +114,17 @@
         </p>
         <p>
           Filter by specific attributes like
-          <QueryLink bind:query value={`@subject:compsci`} />,
-          <QueryLink bind:query value={`@semester:"fall 2024"`} />, and
+          <QueryLink bind:query value={`@subject:CS`} />,
+          <QueryLink bind:query value={`@semester:"Spring 2026"`} />,
+          <QueryLink bind:query value={`@crn:{29617}`} />, and
           <QueryLink bind:query value={`@level:{graduate}`} />.
         </p>
-        <p>
+        <!-- <p>
           If you're looking for Gen Ed courses, add <QueryLink
             bind:query
             value={`gened`}
           /> to your search.
-        </p>
+        </p> -->
       </div>
     {/if}
 
@@ -171,7 +172,7 @@
     {#if !landing}
       <label class="flex items-center text-sm mb-2">
         <input class="mr-2" type="checkbox" bind:checked={currentYear} />
-        Only show AY 2025–2026 courses
+        Only show this academic year's courses
       </label>
     {/if}
 
@@ -199,16 +200,16 @@
   {/if}
 </main>
 
-<aside class="hidden md:block fixed bottom-0 right-0 p-4">
+<!-- <aside class="hidden md:block fixed bottom-0 right-0 p-4">
   <button
     class="border px-4 py-2 rounded-lg shadow-md hover:border-sky-500 hover:bg-sky-50 hover:text-sky-900 active:scale-105 active:shadow-lg transition-all"
     on:click={() => (openCsStudentAd = true)}
   >
     <span class="mr-1">👋</span> For CS students</button
   >
-</aside>
+</aside> -->
 
-{#if openCsStudentAd}
+<!-- {#if openCsStudentAd}
   <section
     class="hidden md:block fixed inset-0 bg-gradient-to-br from-amber-50/80 to-red-100/80 backdrop-blur-sm overflow-auto"
     in:fly={{ x: 100 }}
@@ -217,7 +218,7 @@
     <div class="text-2xl p-8 max-w-screen-md">
       <h2 class="font-bold mb-6">Hi from Eric!</h2>
       <p class="mb-6">
-        Welcome to <em>classes.wtf</em>. If you're seeing this, I hope you're
+        Welcome to <em>gatech.wtf</em>. If you're seeing this, I hope you're
         having a great day! (And that Harvard is a transformative experience
         rather than eating your soul. :D)
       </p>
@@ -231,7 +232,7 @@
         update the course catalog and share the site with students, but you can
         also explore new features. If you're interested, please reach me at <a
           class="underline"
-          href="mailto:ekzhang1@gmail.com">ekzhang1@gmail.com</a
+          href="mailto:ylau36@gatech.edu">ylau36@gatech.edu</a
         >.
       </p>
       <button
@@ -240,7 +241,7 @@
       >
     </div>
   </section>
-{/if}
+{/if} -->
 
 <style lang="postcss">
   @screen md {

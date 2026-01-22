@@ -73,7 +73,7 @@ func (s *SearchCurricle) Fetch(page uint) (courses []Course, err error) {
 			SubjectDescription: node["subjectDescription"].(string),
 			CatalogNumber:      node["catalogNumber"].(string),
 			Level:              harvardLevel(node["courseLevel"].(string)),
-			AcademicGroup:      node["academicGroup"].(string),
+			// AcademicGroup:      node["academicGroup"].(string),
 			Semester:           node["semester"].(string),
 			AcademicYear:       uint32(node["academicYear"].(float64)),
 			ClassSection:       node["classSection"].(string),

@@ -37,7 +37,7 @@
     <div class="flex-1">
       <h3 class="text-sm font-bold">
         <span title={data.subjectDescription}>{data.subject}</span>
-        {data.catalogNumber}:
+        {data.catalogNumber} ({data.classSection}):
         {data.title || "[No Title]"} ({data.semester})
       </h3>
       <p class="text-sm mb-1">
@@ -60,15 +60,15 @@
     </div>
   {/if}
   <p class="text-xs font-light mb-1">
-    {data.academicGroup} | {data.level} | {data.component}
-    | {meetingString(data)}
+    {#if data.crn} {data.crn} | {/if}{data.level} |
+    {data.component} | {meetingString(data)} | {data.campus}
   </p>
   <div class="text-xs mb-1">
     {@html data.description
       .replaceAll("&nbsp;", "\xa0")
       .replaceAll(/<p>\s*<\/p>/g, "")}
   </div>
-  <div class="ext-links flex space-x-2">
+  <!-- <div class="ext-links flex space-x-2">
     <a
       target="_blank"
       rel="noopener noreferrer"
@@ -89,7 +89,7 @@
       href="https://locator.tlt.harvard.edu/course/colgsas-{data.externalId}/{locatorYear}/{season}"
       >Website</a
     >
-  </div>
+  </div> -->
 </div>
 
 <style lang="postcss">

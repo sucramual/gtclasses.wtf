@@ -23,7 +23,6 @@ query getCourses(
       subjectDescription
       catalogNumber
       courseLevel
-      academicGroup
       semester
       academicYear
       classSection
