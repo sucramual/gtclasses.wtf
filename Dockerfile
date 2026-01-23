@@ -25,4 +25,4 @@ CMD if [[ ! -z "$SWAP" ]]; then \
     mkswap _swapfile && swapon _swapfile && ls -hla; \
     fi; \
     free -m; \
-    classes.wtf server -static static -data https://s3.amazonaws.com/classes.wtf/courses.json
+    classes.wtf server -static static -data https://pub-51c51f27d4a6473dbe961af918947cb0.r2.dev/courses.json
