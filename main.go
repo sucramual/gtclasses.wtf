@@ -19,38 +19,39 @@ func main() {
 	}
 
 	switch os.Args[1] {
-	case "download":
-		downloadCmd := flag.NewFlagSet("download", flag.ExitOnError)
-		year := downloadCmd.Int("year", 0, "academic year to download")
-		downloadCmd.Parse(os.Args[2:])
+	/*
+		case "download":
+			downloadCmd := flag.NewFlagSet("download", flag.ExitOnError)
+			year := downloadCmd.Int("year", 0, "academic year to download")
+			downloadCmd.Parse(os.Args[2:])
 
-		var courses []datasource.Course
+			var courses []datasource.Course
 
-		switch {
-		case *year == 0:
-			log.Fatal("download requires a -year")
+			switch {
+			case *year == 0:
+				log.Fatal("download requires a -year")
 
-		case *year < 1991:
-			log.Fatal("curricle does not have data before AY 1991")
+			case *year < 1991:
+				log.Fatal("curricle does not have data before AY 1991")
 
-		case *year <= 2022:
-			log.Printf("downloading from Curricle for year %d", *year)
-			curricle := datasource.SearchCurricle{Year: *year, PerPage: 128}
-			courses = append(courses, datasource.PaginatedDownload(&curricle, 2)...)
+			case *year <= 2022:
+				log.Printf("downloading from Curricle for year %d", *year)
+				curricle := datasource.SearchCurricle{Year: *year, PerPage: 128}
+				courses = append(courses, datasource.PaginatedDownload(&curricle, 2)...)
 
-		default:
-			log.Printf("downloading from My.Harvard for year %d", *year)
-			log.Print("note: course data may be missing for years except the current one")
-			mh := datasource.SearchMh{Year: *year}
-			courses = append(courses, datasource.PaginatedDownload(&mh, 32)...)
-		}
+			default:
+				log.Printf("downloading from My.Harvard for year %d", *year)
+				log.Print("note: course data may be missing for years except the current one")
+				mh := datasource.SearchMh{Year: *year}
+				courses = append(courses, datasource.PaginatedDownload(&mh, 32)...)
+			}
 
-		coursesJson, _ := json.Marshal(courses)
-		filename := fmt.Sprintf("data/courses-%d.json", *year)
-		if err := os.WriteFile(filename, coursesJson, 0644); err != nil {
-			log.Fatalf("failed to write courses.json: %v", err)
-		}
-
+			coursesJson, _ := json.Marshal(courses)
+			filename := fmt.Sprintf("data/courses-%d.json", *year)
+			if err := os.WriteFile(filename, coursesJson, 0644); err != nil {
+				log.Fatalf("failed to write courses.json: %v", err)
+			}
+	*/
 	case "combine":
 		combineCmd := flag.NewFlagSet("combine", flag.ExitOnError)
 		combineCmd.Parse(os.Args[2:])

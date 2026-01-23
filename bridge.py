@@ -212,7 +212,7 @@ def convert_gt_to_wtf(
                 external_id = 0
 
             obj = {
-                "id": f"{course_key.replace(' ', '-')}-{sec_id}",
+                "id": f"{course_key.replace(' ', '-')}-{sec_id}-{crn}",
                 "externalId": external_id,
                 "qGuideId": 0,
                 "title": title,
@@ -245,7 +245,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Convert GT crawler output to classes.wtf format."
     )
-    parser.add_argument("inputs", nargs="+", help="Term JSON file(s) to convert")
+    parser.add_argument("inputs", nargs="*", help="Term JSON file(s) to convert")
     parser.add_argument(
         "--out-dir",
         default=None,
@@ -258,7 +258,19 @@ def main() -> None:
     if (args.semester is None) != (args.year is None):
         parser.error("Provide both --semester and --year or neither.")
 
-    for input_path in args.inputs:
+    inputs = args.inputs
+    if not inputs:
+        data_dir = Path(__file__).resolve().parent / "data"
+        candidates = sorted(
+            path
+            for path in data_dir.glob("*.json")
+            if re.fullmatch(r"\d{6}\.json", path.name)
+        )
+        if not candidates:
+            parser.error("No YYYYMM.json files found in data/.")
+        inputs = [str(path) for path in candidates]
+
+    for input_path in inputs:
         if args.semester is not None:
             semester_name, year = args.semester, args.year
         else:

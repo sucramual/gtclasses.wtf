@@ -99,7 +99,7 @@
       <a
         href="/"
         on:click|preventDefault={() => ((query = ""), (landing = true))}
-        >classes.<span class="text-yellow-500">wtf</span></a
+        >gtclasses.<span class="text-yellow-500">wtf</span></a
       >
     </h1>
 
