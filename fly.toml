@@ -1,35 +1,54 @@
-app = "classes-wtf"
-primary_region = "ewr"
-kill_signal = "SIGINT"
-kill_timeout = 5
+# fly.toml app configuration file generated for gtclasses-wtf on 2026-01-23T14:11:18-08:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'gtclasses-wtf'
+primary_region = 'ewr'
+kill_signal = 'SIGINT'
+kill_timeout = '5s'
 
 [experimental]
   auto_rollback = true
 
+[build]
+
 [env]
-  SWAP = "1"
+  SWAP = '1'
+
+[http_service]
+  internal_port = 7500
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
 [[services]]
-  protocol = "tcp"
+  protocol = 'tcp'
   internal_port = 7500
-  processes = ["app"]
-
-  [services.concurrency]
-    type = "connections"
-    hard_limit = 65536
-    soft_limit = 1024
+  processes = ['app']
 
   [[services.ports]]
     port = 80
-    handlers = ["http"]
+    handlers = ['http']
     force_https = true
 
   [[services.ports]]
     port = 443
-    handlers = ["tls", "http"]
+    handlers = ['tls', 'http']
+
+  [services.concurrency]
+    type = 'connections'
+    hard_limit = 65536
+    soft_limit = 1024
 
   [[services.tcp_checks]]
-    interval = "15s"
-    timeout = "2s"
-    grace_period = "1s"
-    restart_limit = 0
+    interval = '15s'
+    timeout = '2s'
+    grace_period = '1s'
+
+[[vm]]
+  memory = '1gb'
+  cpus = 1
+  memory_mb = 1024
