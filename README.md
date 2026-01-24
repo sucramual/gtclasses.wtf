@@ -1,6 +1,6 @@
 # [gtclasses.wtf](https://gtclasses-wtf.fly.dev/)
 
-*I just want to take a class about **[X]** but searching ~~Harvard~~ Georgia Tech’s course catalog is slow and the results are noisy. WTF?*
+_I just want to take a class about **[X]** but searching ~~Harvard~~ Georgia Tech’s course catalog is slow and the results are noisy. WTF?_
 
 This is a Georgia Tech–adapted fork of Eric Zhang’s original [**classes.wtf**](https://github.com/ekzhang/classes.wtf) (built for Harvard). I ported it because finding classes through the official search flow felt painfully slow and inefficient. Course data is gathered via the [**gt-scheduler crawler**](https://github.com/gt-scheduler/crawler-v2) (used here to crawl raw class data).
 
@@ -34,7 +34,7 @@ npm run start
 
 This writes term files into the repo root `data/` as `data/YYYYMM.json`.
 
-```
+````
 
 #### 2) Convert with the bridge
 
@@ -42,7 +42,7 @@ This writes term files into the repo root `data/` as `data/YYYYMM.json`.
 cd ..
 python3 bridge.py                                   # converts all data/YYYYMM.json
 python3 bridge.py data/202602.json data/202608.json # converts data from specific term
-```
+````
 
 This writes `data/courses-YYYYMM-.json` files.
 
