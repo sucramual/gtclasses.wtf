@@ -20,7 +20,7 @@
   deployed to the edge on
   <a href="https://fly.io"><img src={flyLogo} alt="Fly.io" class="pb-0.5" /></a
   >.
-  <a href="https://github.com/ekzhang/classes.wtf">Original code</a>.
+  <a href="https://github.com/sucramual/gtclasses.wtf/">Original code</a>.
 </p>
 
 <style lang="postcss">
