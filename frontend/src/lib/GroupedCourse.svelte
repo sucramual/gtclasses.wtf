@@ -2,7 +2,7 @@
   import GenEdAreas from "./GenEdAreas.svelte";
   import type { CourseData } from "./search";
 
-  export type CourseGroup = {
+  type CourseGroup = {
     key: string;
     course: CourseData;
     sections: CourseData[];
