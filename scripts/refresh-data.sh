@@ -15,6 +15,8 @@ cd "$CRAWLER_DIR"
 if [[ "${SKIP_NPM_CI:-}" != "1" ]]; then
   npm ci
 fi
+: "${DETAILS_CONCURRENCY:=8}"
+export DETAILS_CONCURRENCY
 npm run start
 
 mkdir -p "$DATA_DIR"
