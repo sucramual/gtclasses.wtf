@@ -31,6 +31,7 @@
 
   let currentYear = true;
   let groupSections = true;
+  let campusFilter = "all";
   let genEdChecks: boolean[] = new Array(4).fill(false);
   let genEdAreas: string[] = ["HSI", "STS", "EC", "AC"];
 
@@ -107,11 +108,19 @@
   let showingTimeout = 0;
 
   $: rawCourses = $data?.courses ?? [];
-  $: groupedCourses = groupCourses(rawCourses);
+  $: campuses = Array.from(
+    new Set(rawCourses.map((course) => course.campus).filter(Boolean))
+  ).sort();
+  $: filteredRawCourses =
+    campusFilter === "all"
+      ? rawCourses
+      : rawCourses.filter((course) => course.campus === campusFilter);
+  $: groupedCourses = groupCourses(filteredRawCourses);
   let lastGroupSections = groupSections;
+  let lastCampusFilter = campusFilter;
 
   function resultsLength() {
-    return groupSections ? groupedCourses.length : rawCourses.length;
+    return groupSections ? groupedCourses.length : filteredRawCourses.length;
   }
 
   function showMore() {
@@ -133,6 +142,11 @@
 
   $: if (groupSections !== lastGroupSections) {
     lastGroupSections = groupSections;
+    resetShowing();
+  }
+
+  $: if (campusFilter !== lastCampusFilter) {
+    lastCampusFilter = campusFilter;
     resetShowing();
   }
 
@@ -224,6 +238,18 @@
         <input class="mr-2" type="checkbox" bind:checked={groupSections} />
         Group sections under the same course
       </label>
+      <label class="flex items-center text-sm mb-2">
+        <span class="mr-2">Class mode:</span>
+        <select
+          class="border border-gray-300 rounded px-2 py-1"
+          bind:value={campusFilter}
+        >
+          <option value="all">All campuses</option>
+          {#each campuses as campus}
+            <option value={campus}>{campus}</option>
+          {/each}
+        </select>
+      </label>
     {/if}
 
     <footer>
@@ -239,6 +265,12 @@
   {#if query && $data}
     <p class="text-sm mb-4 bg-green-50 px-2 py-1 border border-green-500">
       Found {$data.count} results
+      {#if campusFilter !== "all"}
+        <span class="text-gray-500">
+          (showing
+          {groupSections ? groupedCourses.length : filteredRawCourses.length})
+        </span>
+      {/if}
       <span class="text-gray-500">({($data.time * 1000).toFixed(2)} ms)</span>
     </p>
 
@@ -248,7 +280,7 @@
           <GroupedCourse {group} />
         {/each}
       {:else}
-        {#each rawCourses.slice(0, showing) as course (course.id)}
+        {#each filteredRawCourses.slice(0, showing) as course (course.id)}
           <Course data={course} />
         {/each}
       {/if}
