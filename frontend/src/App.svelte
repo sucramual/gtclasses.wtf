@@ -245,7 +245,7 @@
     <div class="space-y-4">
       {#if groupSections}
         {#each groupedCourses.slice(0, showing) as group (group.key)}
-          <GroupedCourse group={group} />
+          <GroupedCourse {group} />
         {/each}
       {:else}
         {#each rawCourses.slice(0, showing) as course (course.id)}
