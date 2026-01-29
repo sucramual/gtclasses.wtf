@@ -13,8 +13,9 @@
 
   import Course from "./lib/Course.svelte";
   import Footer from "./lib/Footer.svelte";
+  import GroupedCourse from "./lib/GroupedCourse.svelte";
   import QueryLink from "./lib/QueryLink.svelte";
-  import { createSearcher, normalizeText } from "./lib/search";
+  import { createSearcher, normalizeText, type CourseData } from "./lib/search";
   import { fly, scale } from "svelte/transition";
 
   let query: string = location.hash ? decodeQueryHash(location.hash) : "";
@@ -29,11 +30,41 @@
   $: if (query) landing = false;
 
   let currentYear = true;
+  let groupSections = true;
   let genEdChecks: boolean[] = new Array(4).fill(false);
   let genEdAreas: string[] = ["HSI", "STS", "EC", "AC"];
 
   const { data, error, search } = createSearcher();
   let finalQuery = "";
+
+  type CourseGroup = {
+    key: string;
+    course: CourseData;
+    sections: CourseData[];
+  };
+
+  function groupCourses(courses: CourseData[]): CourseGroup[] {
+    const map = new Map<string, CourseGroup>();
+    for (const course of courses) {
+      const key = [
+        course.subject,
+        course.catalogNumber,
+        course.semester,
+        course.title,
+      ].join("||");
+      const existing = map.get(key);
+      if (existing) {
+        existing.sections.push(course);
+      } else {
+        map.set(key, {
+          key,
+          course,
+          sections: [course],
+        });
+      }
+    }
+    return Array.from(map.values());
+  }
 
   // See if user searches for gen-eds.
   $: genEdQuery = query.toLowerCase().includes("gened");
@@ -75,20 +106,35 @@
   let showing = 0;
   let showingTimeout = 0;
 
+  $: rawCourses = $data?.courses ?? [];
+  $: groupedCourses = groupCourses(rawCourses);
+  let lastGroupSections = groupSections;
+
+  function resultsLength() {
+    return groupSections ? groupedCourses.length : rawCourses.length;
+  }
+
   function showMore() {
-    const len = $data?.courses?.length ?? 0;
+    const len = resultsLength();
     if (showing < len) {
       showing += Math.min(20, len - showing);
       showingTimeout = window.setTimeout(showMore, 100);
     }
   }
-  onMount(() =>
-    data.subscribe(() => {
-      window.clearTimeout(showingTimeout);
-      showing = 0;
-      showMore();
-    })
-  );
+
+  function resetShowing() {
+    if (typeof window === "undefined") return;
+    window.clearTimeout(showingTimeout);
+    showing = 0;
+    showMore();
+  }
+
+  onMount(() => data.subscribe(() => resetShowing()));
+
+  $: if (groupSections !== lastGroupSections) {
+    lastGroupSections = groupSections;
+    resetShowing();
+  }
 
   let openCsStudentAd = false;
 </script>
@@ -174,6 +220,10 @@
         <input class="mr-2" type="checkbox" bind:checked={currentYear} />
         Only show this academic year's courses
       </label>
+      <label class="flex items-center text-sm mb-2">
+        <input class="mr-2" type="checkbox" bind:checked={groupSections} />
+        Group sections under the same course
+      </label>
     {/if}
 
     <footer>
@@ -193,9 +243,15 @@
     </p>
 
     <div class="space-y-4">
-      {#each ($data.courses ?? []).slice(0, showing) as course (course.id)}
-        <Course data={course} />
-      {/each}
+      {#if groupSections}
+        {#each groupedCourses.slice(0, showing) as group (group.key)}
+          <GroupedCourse {group} />
+        {/each}
+      {:else}
+        {#each rawCourses.slice(0, showing) as course (course.id)}
+          <Course data={course} />
+        {/each}
+      {/if}
     </div>
   {/if}
 </main>
