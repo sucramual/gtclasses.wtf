@@ -15,11 +15,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v5
         with:
-          go-version: "1.20"
+          go-version: "1.22"
 
       - run: go build
 
@@ -28,19 +28,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: "18"
 
-      - run: npm ci
+      - run: yarn install --frozen-lockfile
 
-      - run: npm run format:check
+      - run: yarn format:check
 
-      - run: npm run check
+      - run: yarn check
 
-      - run: npm run build
+      - run: yarn build
 
   deploy:
     name: Deploy
@@ -52,7 +52,7 @@ jobs:
       cancel-in-progress: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - uses: superfly/flyctl-actions@master
         env:
